@@ -6,6 +6,7 @@ class Rect {
         this.h = height;
         this.color = color;
         this.context = context;
+        this.speed = 2;
     }
 
     draw() {

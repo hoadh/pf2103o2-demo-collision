@@ -4,25 +4,38 @@ class Game {
         this.width = width;
         this.height = height;
         this.context = context;
+        this.drawableShape = [];
+        this.player = new Rect(50, 200, 60, 60, "red", context);
         this.init();
     }
 
     init() {
-        this.rect = new Rect(50, 50, 30, 30, "green", context);
-        this.rect2 = new Rect(50, 200, 60, 60, "red", context);
+        for (let i = 0; i < 10; i++) {
+            let randomX = Math.floor(Math.random() * 770 + 1);
+            let randomSpeed = Math.floor(Math.random() * 6 + 2);
+
+            let rect = new Rect(randomX, 0, 30, 30, "green", context);
+            rect.speed = randomSpeed;
+            this.drawableShape.push(rect);
+        }
     }
 
     start() {
 
         this.interval = setInterval( () => {
-            if (this.isCollision(this.rect, this.rect2)) {
-                this.stop();
-            }
-        
+
             this.context.clearRect(0, 0, this.width, this.height);
-            this.rect.y += 2;
-            this.rect2.draw();
-            this.rect.draw();
+            this.player.draw();
+            
+            for (let i = 0; i < this.drawableShape.length; i++) {
+                let rect = this.drawableShape[i];
+
+                if (this.isCollision(rect, this.player)) {
+                    this.stop();
+                }
+                rect.y += rect.speed;
+                rect.draw();
+            }
         }, 50);
     }
 
