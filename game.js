@@ -6,6 +6,7 @@ class Game {
         this.context = context;
         this.drawableShape = [];
         this.player = new Rect(50, 400, 30, 30, "red", context);
+        this.points = 0;
         this.init();
     }
 
@@ -40,12 +41,22 @@ class Game {
         return rect.y >= this.height;
     }
 
+    increasePoint() {
+        this.points++;
+    }
+
+    drawPoint() {
+        this.context.font = "20px Arial";
+        this.context.fillText("Điểm " + this.points, 20, 30);
+    }
+
     start() {
 
         this.interval = setInterval( () => {
 
             this.context.clearRect(0, 0, this.width, this.height);
             this.player.draw();
+            this.drawPoint();
             
             for (let i = 0; i < this.drawableShape.length; i++) {
                 let rect = this.drawableShape[i];
@@ -57,6 +68,7 @@ class Game {
 
                 if (this.isScreenOverflow(rect)) {
                     this.resetRect(rect);
+                    this.increasePoint();
                 } else {
                     rect.y += rect.speed;
                 }
