@@ -5,7 +5,7 @@ class Game {
         this.height = height;
         this.context = context;
         this.drawableShape = [];
-        this.player = new Rect(50, 200, 60, 60, "red", context);
+        this.player = new Rect(50, 400, 30, 30, "red", context);
         this.init();
     }
 
@@ -18,6 +18,26 @@ class Game {
             rect.speed = randomSpeed;
             this.drawableShape.push(rect);
         }
+    }
+
+    movePlayerLeft() {
+        this.player.x -= 10;
+    }
+
+    movePlayerRight() {
+        this.player.x += 10;
+    }
+
+    resetRect(rect) {
+        const randomX = Math.floor(Math.random() * 770 + 1);
+        const topScreen = 0;
+
+        rect.x = randomX;
+        rect.y = topScreen;
+    }
+
+    isScreenOverflow(rect) {
+        return rect.y >= this.height;
     }
 
     start() {
@@ -33,7 +53,14 @@ class Game {
                 if (this.isCollision(rect, this.player)) {
                     this.stop();
                 }
-                rect.y += rect.speed;
+                
+
+                if (this.isScreenOverflow(rect)) {
+                    this.resetRect(rect);
+                } else {
+                    rect.y += rect.speed;
+                }
+                
                 rect.draw();
             }
         }, 50);
